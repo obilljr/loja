@@ -1,0 +1,42 @@
+####
+# ATENTION:
+# Replace all occurences of sandbox with your project's name
+####
+
+# v2 syntax
+version: '2'
+
+# Named volumes
+volumes:
+
+  # MySQL Data
+  loja-mysql-data:
+    driver: local
+
+services:
+
+  # MySQL (5.7)
+  mysql:
+    image: mysql:5.7
+    container_name: loja-mysql
+    volumes:
+      - loja-mysql-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=loja
+      - MYSQL_DATABASE=loja
+      - MYSQL_USER=loja
+      - MYSQL_PASSWORD=loja
+
+  # PHP (with Nginx)
+  # you can change from nginx to apache, just change session 'image'
+  app:
+    image: ambientum/php:7.1-nginx
+    container_name: loja-app
+    volumes:
+      - .:/var/www/app/public
+    ports:
+      - "80:8080"
+    links:
+      - mysql
