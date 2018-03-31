@@ -1,2 +1,2 @@
 <?php
-echo "Loja PHP";
+echo "Novo Projeto";
